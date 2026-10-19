@@ -4,8 +4,9 @@ ASP.NET Core Web API (.NET 10) that answers questions about documents using RAG.
 First client: the "Mi Salud" app, where patients upload medical results (PDF and images) and ask about them by voice.
 
 ## Layout
-- `src/DocsAi.Api` — the API (Minimal APIs).
-- `tests/DocsAi.Api.Tests` — xUnit tests; endpoint tests use `WebApplicationFactory<Program>`.
+- `src/DocsAi.Api` — the API. `/health` is a minimal endpoint in `Program.cs`; every other endpoint lives in a controller.
+- `src/DocsAi.Api/Features/<Feature>/` — vertical slices: one folder per feature (e.g. `Documents`, `Ask`) holding its controller, request/response records, service and data access. Features don't reach into each other's folders; shared code goes in `src/DocsAi.Api/Common/`.
+- `tests/DocsAi.Api.Tests` — xUnit tests, mirroring the feature folders (`Features/<Feature>/`); endpoint tests use `WebApplicationFactory<Program>`.
 - `DocsAi.slnx` — solution file. `Directory.Build.props` turns warnings into errors.
 
 ## Commands
