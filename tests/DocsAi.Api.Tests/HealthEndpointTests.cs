@@ -1,18 +1,18 @@
 using System.Net;
 using System.Net.Http.Json;
-using Microsoft.AspNetCore.Mvc.Testing;
+using DocsAi.Api.Tests.Common;
 
 namespace DocsAi.Api.Tests;
 
-public class HealthEndpointTests(WebApplicationFactory<Program> factory)
-    : IClassFixture<WebApplicationFactory<Program>>
+[Collection(ApiCollection.Name)]
+public class HealthEndpointTests(ApiFixture api)
 {
+    private readonly HttpClient _client = api.Client;
+
     [Fact]
     public async Task Get_Health_ReturnsOkWithHealthyStatus()
     {
-        var client = factory.CreateClient();
-
-        var response = await client.GetAsync("/health");
+        var response = await _client.GetAsync("/health");
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         var body = await response.Content.ReadFromJsonAsync<HealthResponse>();
