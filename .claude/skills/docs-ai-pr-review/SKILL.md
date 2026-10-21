@@ -12,7 +12,7 @@ Most of the time the code under review was written by Claude. That is exactly wh
 ## 1. Gather context
 
 1. Find the PR. Use the number the user gives, or the PR for the current branch: `gh pr view --json number,title,body,headRefOid,baseRefName,files`.
-2. Get the diff: `gh pr diff <N>`. Save it to a file; the posting script needs it.
+2. Get the diff: `gh pr diff <N> > .claude/reviews/pr-<N>/pr.diff` (create the folder first). The posting script needs it. `.claude/reviews/` is in `.gitignore`, so review files never end up in a commit; never write them anywhere else in the repo.
 3. Read `CLAUDE.md` at the repo root. It is the source of truth for layout and rules and may have changed since this skill was written; if it disagrees with this skill, follow `CLAUDE.md`.
 4. Read every changed file **in full**, not just the hunks, plus the code it calls and the code that calls it. Many design problems (a feature reaching into another feature's folder, a second implementation of patient scoping) are invisible from the hunk alone.
 5. If the branch is checked out locally, run `dotnet build` and `dotnet test`. A failing build or test is a blocker; anchor it to the most relevant changed line and paste the key error.
@@ -82,7 +82,7 @@ What to do instead, with a short code sketch when it helps.
 
 ## 5. Post the review
 
-Write the findings to a JSON file:
+Write the findings to `.claude/reviews/pr-<N>/findings.json`:
 
 ```json
 {
@@ -103,8 +103,8 @@ Write the findings to a JSON file:
 `start_line` is optional. Then post with the bundled script, which checks every line against the diff, skips findings already posted on an earlier run of this review, and submits them all as one review with the `COMMENT` event:
 
 ```bash
-python scripts/post_review.py --repo yamilkar/docs-ai-assistant --pr <N> \
-  --findings findings.json --diff pr.diff
+python .claude/skills/docs-ai-pr-review/scripts/post_review.py --repo yamilkar/docs-ai-assistant --pr <N> \
+  --findings .claude/reviews/pr-<N>/findings.json --diff .claude/reviews/pr-<N>/pr.diff
 ```
 
 Add `--dry-run` to print what would be posted without posting. If the script rejects a line, fix the anchor and rerun; don't drop the finding.
