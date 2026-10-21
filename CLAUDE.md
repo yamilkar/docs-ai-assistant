@@ -23,5 +23,9 @@ First client: the "Mi Salud" app, where patients upload medical results (PDF and
 - Every query is scoped to one patient; never return another patient's data.
 - Small commits with clear messages.
 
+## Pull requests
+- Every time you open a PR or push new commits to one, run the `docs-ai-pr-review` skill (`.claude/skills/docs-ai-pr-review/`) on it before saying the PR is ready. It posts inline review comments; it never pushes fixes, approves or requests changes. Yamilka decides what to change.
+- Run the review with fresh eyes: if you can, start a subagent that gets only the PR number and the skill, not the conversation that wrote the code.
+
 ## Stack (planned)
 LLM: Claude on Amazon Bedrock via Microsoft.Extensions.AI. Vector store: PostgreSQL + pgvector (Docker locally, Amazon RDS in production). Deploy: Docker, Amazon ECS on Fargate, AWS CDK in C#, GitHub Actions.
