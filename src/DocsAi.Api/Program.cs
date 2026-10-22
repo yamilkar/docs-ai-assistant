@@ -1,6 +1,11 @@
+using DocsAi.Api.Common.Ai;
+using DocsAi.Api.Features.Chat;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddClaudeOnBedrock(builder.Configuration);
+builder.Services.AddScoped<ChatService>();
 
 var app = builder.Build();
 
