@@ -24,8 +24,7 @@ public static class AiServiceCollectionExtensions
             {
                 var options = sp.GetRequiredService<IOptions<BedrockOptions>>().Value;
                 return sp.GetRequiredService<IAmazonBedrockRuntime>().AsIChatClient(options.ModelId);
-            })
-            .UseLogging();
+            });
 
         return services;
     }
