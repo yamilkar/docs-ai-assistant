@@ -1,9 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>02986e2b-d01d-4d7b-8f89-4a4972155725</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.Extensions.Bedrock.MEAI" Version="4.0.101.8" />
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="4.0.102.6" />
+    <PackageReference Include="Microsoft.Extensions.AI" Version="10.11.0" />
+  </ItemGroup>
 
 </Project>
